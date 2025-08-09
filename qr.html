@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRGenX - Advanced QR Code Generator</title>
+    <link rel="stylesheet" href="qr.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+   <div class="loading-animation" id="loader">
+        <div class="loader-circle"></div>
+    </div>
+    
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-qrcode"></i>
+            <span>QRGenX Ultra</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="theme-toggle">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </div>
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1 class="animated-text">Advanced QR Code Generator</h1>
+                <p class="subtitle">Create stunning QR codes with logos, colors, and emojis in seconds</p>
+                <div class="cta-buttons">
+                    <button class="btn primary floating" id="start-generating">
+                        <i class="fas fa-magic"></i> Create QR Code
+                    </button>
+                   <a href="#how-it-works" class="btn secondary" style="text-decoration: none;">
+    <i class="fas fa-play-circle"></i> How It Works
+</a>
+
+
+                    
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="../QRgenx/picture/re.png" alt="QR Code Animation">
+            </div>
+        </section>
+
+        <!-- Generator Section -->
+        <section class="generator-section">
+            <div class="container">
+                <div class="input-section">
+                    <h2>Create Your QR Code</h2>
+                    <div class="input-group">
+                        <label for="qr-content">Enter content (supports up to 10,000 lines):</label>
+                        <div class="emoji-container">
+                            <textarea id="qr-content" placeholder="Type text, URL, contact info or paste image link here..."></textarea>
+                            <button class="emoji-toggle" id="emoji-toggle" title="Add emoji">
+                                <i class="far fa-smile"></i>
+                            </button>
+                            <div class="emoji-picker" id="emoji-picker">
+                                <!-- Emojis will be added dynamically -->
+                            </div>
+                        </div>
+                        <div class="large-content-support">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Supports large content (up to 10,000 lines)</span>
+                        </div>
+                    </div>
+                    <div class="upload-section">
+                        <label class="upload-btn">
+                            <input type="file" id="file-upload" accept="image/*">
+                            <i class="fas fa-upload"></i> Upload Logo
+                        </label>
+                        <span id="file-name">No file selected</span>
+                        <button class="clear-btn" id="clear-file" title="Clear file" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <img id="image-preview" class="image-preview" alt="Image preview">
+                    <div class="progress-container" id="progress-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    
+                    <div class="logo-options" id="logo-options" style="display: none;">
+                        <h3>Logo Settings</h3>
+                        <div class="logo-size-option">
+                            <label for="logo-size">Logo Size (% of QR code):</label>
+                            <input type="range" id="logo-size" min="10" max="30" value="20" step="1">
+                            <span id="logo-size-value">20%</span>
+                        </div>
+                        <div class="shape-options">
+                            <div class="shape-option active" data-shape="circle" title="Circle">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="shape-option" data-shape="square" title="Square">
+                                <i class="fas fa-square"></i>
+                            </div>
+                            <div class="shape-option" data-shape="rounded" title="Rounded">
+                                <i class="fas fa-square" style="border-radius: 8px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="options-section">
+                        <div class="option">
+                            <label for="qr-color">QR Color:</label>
+                            <input type="color" id="qr-color" value="#000000">
+                        </div>
+                        <div class="option">
+                            <label for="bg-color">Background:</label>
+                            <input type="color" id="bg-color" value="#ffffff">
+                        </div>
+                        <div class="option">
+                            <label for="qr-size">Size:</label>
+                            <select id="qr-size">
+                                <option value="100">100x100</option>
+                                <option value="200" selected>200x200</option>
+                                <option value="300">300x300</option>
+                                <option value="400">400x400</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn generate-btn" id="generate-btn">
+                        <i class="fas fa-qrcode"></i> Generate QR Code
+                    </button>
+                    <button class="btn" id="clear-all">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+                
+                <div class="result-section">
+                    <div class="qr-container">
+                        <div class="qr-placeholder" id="qr-placeholder">
+                            <i class="fas fa-qrcode"></i>
+                            <p>Your QR code will appear here</p>
+                        </div>
+                        <img id="qr-result">
+                    </div>
+                    
+                    <div class="download-section">
+                        <button class="btn download-btn" id="download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <div class="share-dropdown">
+                            <button class="btn share-btn" id="share-btn" disabled>
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                            <div class="share-options" id="share-options">
+                                <a href="#" class="share-option" id="whatsapp-share">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </a>
+                                <a href="#" class="share-option" id="facebook-share">
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </a>
+                                <a href="#" class="share-option" id="twitter-share">
+                                    <i class="fab fa-twitter"></i> Twitter
+                                </a>
+                                <a href="#" class="share-option" id="email-share">
+                                    <i class="fas fa-envelope"></i> Email
+                                </a>
+                                <a href="#" class="share-option" id="copy-link">
+                                    <i class="fas fa-copy"></i> Copy Link
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Redesigned Features Section -->
+<section class="features-section" id="features">
+    <div class="features-container">
+        <h2 class="section-title">Premium Features</h2>
+        <p class="section-subtitle">Create stunning QR codes with our powerful toolkit</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-container">
+                    <i class="fas fa-palette feature-icon"></i>
+                </div>
+                <h3>Advanced Customization</h3>
+                <p>Full control over colors, gradients and patterns to match your brand identity perfectly.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-container">
+                    <i class="fas fa-image feature-icon"></i>
+                </div>
+                <h3>Logo & Emoji Integration</h3>
+                <p>Embed your logo or favorite emojis with customizable shapes and positioning.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-container">
+                    <i class="fas fa-expand feature-icon"></i>
+                </div>
+                <h3>Multiple Size Options</h3>
+                <p>From small icons to large prints, generate crisp QR codes at any resolution.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-container">
+                    <i class="fas fa-share-alt feature-icon"></i>
+                </div>
+                <h3>One-Click Sharing</h3>
+                <p>Instant sharing to social platforms or direct download links for easy distribution.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-container">
+                    <i class="fas fa-mobile-alt feature-icon"></i>
+                </div>
+                <h3>Cross-Device Compatibility</h3>
+                <p>Perfectly optimized QR codes that scan flawlessly on any device.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-container">
+                    <i class="fas fa-lock feature-icon"></i>
+                </div>
+                <h3>Secure Local Processing</h3>
+                <p>Your data never leaves your device - complete privacy guaranteed.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Vertical Step-by-Step Section -->
+<section class="how-it-works" id="how-it-works">
+    <div class="steps-container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Create your perfect QR code in 3 simple steps</p>
+        
+        <div class="steps-vertical">
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Upload Your Content</h3>
+                    <p>Drag & drop your image or enter any text, URL, or contact information. Our system supports large files up to 15MB with optimized compression.</p>
+                </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Customize Appearance</h3>
+                    <p>Choose colors, add your logo, and adjust settings to match your brand. Select from different shapes and sizes for the perfect look.</p>
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Generate & Download</h3>
+                    <p>Get your high-quality QR code instantly. Download in PNG format or share directly via email and social media.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Redesigned Contact Section -->
+<section class="contact-section" id="contact">
+    <div class="contact-container">
+        <div class="contact-info">
+            <h2>Get In Touch</h2>
+            <p>Have questions or feedback about QRGenX Ultra? Our team is ready to assist you with any inquiries or support you may need.</p>
+            
+            <div class="contact-details">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Email Us</h4>
+                        <p>support@qrgenxultra.com</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Call Us</h4>
+                        <p>1111111111</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Visit Us</h4>
+                        <p>123 QR Street, Ahmedabad</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-form">
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-qrcode"></i>
+                <span>QRGenX Ultra</span>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#contact">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="qr.js"></script>
+</body>
+</html>
